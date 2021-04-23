@@ -1,6 +1,7 @@
 """
 
-Path planning with RRTABC
+Path planning with RRTABC, an algorithm developed for my senior
+thesis
 
 author: Colby Chang, modified from Atsushi Sakai's RRT Star code
 
@@ -17,13 +18,6 @@ import xlsxwriter
 import matplotlib.pyplot as plt
 import numpy as np
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../RRT/")
-
-try:
-    from rrt import RRT
-except ImportError:
-    raise
-
 show_animation = True
 plot_evader = True
 slow_factor = 0.7
@@ -32,7 +26,7 @@ create_gif = False
 
 class RRTABC:
     """
-    Class for RRT Star planning
+    Class for RRTABC path planning for pursuit-evasion
     """
 
     class Node:

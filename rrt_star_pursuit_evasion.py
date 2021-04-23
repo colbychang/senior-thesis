@@ -1,8 +1,12 @@
 """
 
-Path planning Sample Code with RRT*
+Path planning code with RRT* for pursuit-evasion
+    See "Incremental Sampling-based Algorithms for a class of
+    Pursuit-Evasion Games" by Sertec Karaman and Emilio Frazzoli
+    for the algorithm explanation
 
-author: Atsushi Sakai(@Atsushi_twi)
+
+author: Colby Chang, modified from Atsushi Sakai's RRT Star code
 
 """
 
@@ -138,17 +142,16 @@ class RRTStarPE(RRT):
         """
         Computes the cheapest point to new_node contained in the list
         near_inds and set such a node as the parent of new_node.
-            Arguments:
-            --------
-                new_node, Node
-                    randomly generated node with a path from its neared point
-                    There are not coalitions between this node and th tree.
-                near_inds: list
-                    Indices of indices of the nodes what are near to new_node
 
-            Returns.
-            ------
-                Node, a copy of new_node
+        Arguments:
+            new_node, Node
+                randomly generated node with a path from its neared point
+                There are not coalitions between this node and th tree.
+            near_inds: list
+                Indices of indices of the nodes what are near to new_node
+
+        Returns:
+            Node, a copy of new_node
         """
         if not near_inds:
             return None
@@ -209,6 +212,10 @@ class RRTStarPE(RRT):
         """
         For a given pursuer node, find the close evader nodes and remove any that
         have larger costs (times)
+
+        Arguments:
+            pursuer_node: Node
+                The pursuer's node that was just inserted
         """
         near_inds = self.find_near_nodes(pursuer_node, self.evader_node_list)
         n = 0
@@ -224,6 +231,10 @@ class RRTStarPE(RRT):
     def remove_evader_children(self, parent_node):
         """
         Removes all of the children for a given evader node
+
+        Arguments:
+            parent_node: Node
+                The node whose children should be removed
         """
         nodes_to_remove = []
         for i, node in enumerate(self.evader_node_list):
@@ -238,6 +249,10 @@ class RRTStarPE(RRT):
         """
         Determine whether the new evader node is reachable by any pursuer node
         within the time needed for the evader to reach the new node
+
+        Arguments:
+            evader_node: Node
+                The evader's node to be whose reachability is being checked
         """
         for node in self.pursuer_node_list:
             if node.cost <= evader_node.cost:
@@ -247,18 +262,16 @@ class RRTStarPE(RRT):
 
     def find_near_nodes(self, new_node, node_list):
         """
-        1) defines a ball centered on new_node
-        2) Returns indices of all other nodes that are inside this ball
-            Arguments:
-            ---------
-                new_node: Node
-                    new randomly generated node, without collisions between
-                    its nearest node
-            Returns:
-            -------
-                list
-                    List with the indices of the nodes inside the ball of
-                    radius r
+        Defines a ball centered on new_node and returns indices of all other
+        nodes that are inside this ball
+        Arguments:
+            new_node: Node
+                new randomly generated node, without collisions between
+                its nearest node
+        Returns:
+            list
+                List with the indices of the nodes inside the ball of
+                radius r
         """
         nnode = len(node_list) + 1
         r = self.connect_circle_dist * math.sqrt((math.log(nnode) / nnode))
@@ -273,20 +286,19 @@ class RRTStarPE(RRT):
 
     def rewire(self, new_node, near_inds, node_list):
         """
-            For each node in near_inds, this will check if it is cheaper to
-            arrive to them from new_node.
-            In such a case, this will re-assign the parent of the nodes in
-            near_inds to new_node.
-            Parameters:
-            ----------
-                new_node, Node
-                    Node randomly added which can be joined to the tree
+        For each node in near_inds, this will check if it is cheaper to
+        arrive to them from new_node.
+        In such a case, this will re-assign the parent of the nodes in
+        near_inds to new_node.
+        Arguments:
+            new_node, Node
+                Node randomly added which can be joined to the tree
 
-                near_inds, list of uints
-                    A list of indices of the self.new_node which contains
-                    nodes within a circle of a given radius.
-            Remark: parent is designated in choose_parent.
+            near_inds, list of uints
+                A list of indices of the self.new_node which contains
+                nodes within a circle of a given radius.
 
+        Remark: parent is designated in choose_parent.
         """
         for i in near_inds:
             near_node = node_list[i]

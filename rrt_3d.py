@@ -1,8 +1,8 @@
 """
 
-Path planning Sample Code with Randomized Rapidly-Exploring Random Trees (RRT)
+Path planning code with Randomized Rapidly-Exploring Random Trees (RRT) in 3D
 
-author: AtsushiSakai(@Atsushi_twi)
+author: Colby Chang (adapted from AtsushiSakai(@Atsushi_twi))
 
 """
 

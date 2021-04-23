@@ -1,6 +1,6 @@
 """
 
-Path planning with RRTx
+Path planning code with RRTx
 
 author: Colby Chang, modified from Atsushi Sakai's RRT Star code
 

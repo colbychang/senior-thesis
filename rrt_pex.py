@@ -1,6 +1,7 @@
 """
 
-Path planning with RRTx
+Path planning with modified RRTx, with the root of the tree at the
+robot's location
 
 author: Colby Chang, modified from Atsushi Sakai's RRT Star code
 

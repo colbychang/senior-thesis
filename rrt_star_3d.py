@@ -1,6 +1,6 @@
 """
 
-Path planning Sample Code with RRT*
+Path planning code with RRT* in 3D
 
 author: Atsushi Sakai(@Atsushi_twi)
 
